@@ -43,21 +43,35 @@ public class Converter implements TextGraphicsConverter {
 
         int newWidth = 0;
         int newHeight = 0;
-        if ((maxWidth != 0 && maxWidth < img.getWidth()) || (maxHeight != 0 && maxHeight < img.getHeight())) {
-            if (maxWidth != 0 && maxWidth < img.getWidth()) {
-                double ratioWeidth = img.getWidth() / maxWidth;
+        System.out.println("Размеры картинки: h:" + img.getHeight() + " w:" + img.getWidth());
+//        System.out.println("Ограничения картинки: h:" + maxHeight + " w:" + maxWidth);
+
+        if (maxWidth != 0 && (img.getWidth() > maxWidth || img.getHeight() > maxHeight)) {
+            double ratioWeidth = 0;
+            if (img.getWidth() > maxWidth) {
+                ratioWeidth = (double) img.getWidth() / maxWidth;
                 newWidth = maxWidth;
                 newHeight = (int) Math.round(img.getHeight() / ratioWeidth);
             }
-            if (maxHeight != 0 && maxHeight < img.getHeight()) {
-                double ratioHeight = img.getHeight() / maxWidth;
-                newHeight = maxHeight;
-                newWidth = (int) Math.round(img.getWidth() / ratioHeight);
+//            System.out.println("отношение W/Wmax: " + ratioWeidth);
+            double ratioHeight = 0;
+            if (newHeight == 0 && img.getHeight() > maxHeight) {
+                ratioHeight = (double) img.getHeight() / maxHeight;
+                newWidth = maxWidth;
+                newHeight = (int) Math.round(img.getHeight() / ratioHeight);
             }
+            if (newHeight > maxHeight) {
+                ratioHeight = (double) newHeight / maxHeight;
+                newHeight = maxHeight;
+                newWidth = (int) Math.round(newHeight / ratioHeight);
+            }
+//            System.out.println("отношение H/Hmax: " + ratioHeight);
         } else {
             newWidth = img.getWidth();
             newHeight = img.getHeight();
         }
+        System.out.println("Новые размеры картинки: h:" + newHeight + " w:" + newWidth);
+
         // Теперь нам надо попросить картинку изменить свои размеры на новые.
         // Последний параметр означает, что мы просим картинку плавно сузиться
         // на новые размеры. В результате мы получаем ссылку на новую картинку, которая

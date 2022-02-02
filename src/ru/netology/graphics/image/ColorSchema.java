@@ -1,7 +1,5 @@
 package ru.netology.graphics.image;
 
-import java.sql.Array;
-
 public class ColorSchema implements TextColorSchema{
     //'#', '$', '@', '%', '*', '+', '-', '''
     @Override
